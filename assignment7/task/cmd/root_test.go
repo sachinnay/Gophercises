@@ -7,6 +7,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.ibm.com/dash/dash_utils/dashtest"
+
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/sachinnay/Gophercises/assignment7/task/db"
 	"github.com/stretchr/testify/assert"
@@ -243,4 +245,8 @@ func TestListCommand_DbError(t *testing.T) {
 	os.Stdout = oldStdout
 	record.Close()
 
+}
+
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
 }

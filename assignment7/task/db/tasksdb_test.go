@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	homedir "github.com/mitchellh/go-homedir"
+	"github.ibm.com/dash/dash_utils/dashtest"
 )
 
 func TestItob(t *testing.T) {
@@ -98,4 +99,8 @@ func TestInit_chkDb(t *testing.T) {
 
 	}
 
+}
+
+func TestMain(m *testing.M) {
+	dashtest.ControlCoverage(m)
 }
