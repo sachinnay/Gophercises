@@ -8,7 +8,7 @@ import (
 )
 
 var taskBucket = []byte("tasks")
-var db *bolt.DB
+var Db *bolt.DB
 
 //Task  :: struct for task
 type Task struct {
@@ -19,7 +19,7 @@ type Task struct {
 // Init :: to initialize db connection and bucket
 func Init(dbPath string) error {
 	var err error
-	db, err = bolt.Open(dbPath, 0600, &bolt.Options{Timeout: 1 * time.Second})
+	Db, err = bolt.Open(dbPath, 0600, &bolt.Options{Timeout: 1 * time.Second})
 	if err != nil {
 		return err
 	}
@@ -27,14 +27,14 @@ func Init(dbPath string) error {
 		_, err := tx.CreateBucketIfNotExists(taskBucket)
 		return err
 	}
-	return db.Update(fn)
+	return Db.Update(fn)
 
 }
 
 //CreateTask :: creats the task
 func CreateTask(task string) (int, error) {
 	var id int
-	err := db.Update(func(tx *bolt.Tx) error {
+	err := Db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(taskBucket)
 		id64, _ := b.NextSequence()
 		id = int(id64)
@@ -44,13 +44,14 @@ func CreateTask(task string) (int, error) {
 	if err != nil {
 		return -1, err
 	}
+
 	return id, nil
 }
 
 //AllTasks :: read all TODO tasks
 func AllTasks() ([]Task, error) {
 	var tasks []Task
-	err := db.View(func(tx *bolt.Tx) error {
+	err := Db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(taskBucket)
 		c :=
 			b.Cursor()
@@ -82,13 +83,8 @@ func btoi(b []byte) int {
 
 //DeleteTask :: delete the TODO task
 func DeleteTask(id int) error {
-	return db.Update(func(tx *bolt.Tx) error {
+	return Db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(taskBucket)
 		return b.Delete(itob(id))
 	})
-}
-
-//CloseConnection :: for closing connection
-func CloseConnection() error {
-	return db.Close()
 }

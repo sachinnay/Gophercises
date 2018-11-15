@@ -45,7 +45,7 @@ func TestAddCommand(t *testing.T) {
 	record.Seek(0, 0)
 	os.Stdout = oldStdout
 	record.Close()
-	db.CloseConnection()
+	db.Db.Close()
 }
 
 func TestListCommand(t *testing.T) {
@@ -70,7 +70,7 @@ func TestListCommand(t *testing.T) {
 	record.Seek(0, 0)
 	os.Stdout = oldStdout
 	record.Close()
-	db.CloseConnection()
+	db.Db.Close()
 }
 func TestDoCommand_ParseError(t *testing.T) {
 	dbPath := setDB()
@@ -95,7 +95,7 @@ func TestDoCommand_ParseError(t *testing.T) {
 	record.Seek(0, 0)
 	os.Stdout = oldStdout
 	record.Close()
-	db.CloseConnection()
+	db.Db.Close()
 }
 func TestDoCommand_DBError(t *testing.T) {
 
@@ -118,7 +118,7 @@ func TestDoCommand_DBError(t *testing.T) {
 	record.Seek(0, 0)
 	os.Stdout = oldStdout
 	record.Close()
-	db.CloseConnection()
+	db.Db.Close()
 }
 func TestDoCommand_InvalidTaskError(t *testing.T) {
 	dbPath := setDB()
@@ -142,7 +142,7 @@ func TestDoCommand_InvalidTaskError(t *testing.T) {
 	record.Seek(0, 0)
 	os.Stdout = oldStdout
 	record.Close()
-	db.CloseConnection()
+	db.Db.Close()
 }
 func TestDoCommand(t *testing.T) {
 	dbPath := setDB()
@@ -167,7 +167,7 @@ func TestDoCommand(t *testing.T) {
 	record.Seek(0, 0)
 	os.Stdout = oldStdout
 	record.Close()
-	db.CloseConnection()
+	db.Db.Close()
 }
 
 func TestAddCommand_DbError(t *testing.T) {
@@ -215,14 +215,14 @@ func TestListCommand_Notask(t *testing.T) {
 	record.Seek(0, 0)
 	os.Stdout = oldStdout
 	record.Close()
-	db.CloseConnection()
+	db.Db.Close()
 }
 
 func TestListCommand_DbError(t *testing.T) {
 	removeDBFile()
 	dbPath := setDB()
 	db.Init(dbPath)
-	db.CloseConnection()
+	db.Db.Close()
 
 	record, _ := os.OpenFile("test_stdout.txt", os.O_CREATE|os.O_RDWR, 0666)
 	oldStdout := os.Stdout

@@ -71,7 +71,7 @@ func TestDeleteTasks(t *testing.T) {
 }
 
 func TestCreateTask_DbError(t *testing.T) {
-	db.Close()
+	Db.Close()
 	_, err := CreateTask("Task1")
 
 	if err.Error() != "database not open" {
@@ -81,7 +81,7 @@ func TestCreateTask_DbError(t *testing.T) {
 }
 func TestAllTask_DbError(t *testing.T) {
 
-	db.Close()
+	Db.Close()
 	_, err := AllTasks()
 	if err != nil && err.Error() != "database not open" {
 		t.Errorf("Expecting \"database not open\" \n")
