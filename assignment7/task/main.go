@@ -15,7 +15,7 @@ func main() {
 	dbPath := filepath.Join(home, "tasks.db")
 	must(db.Init(dbPath))
 	must(cmd.RootCmd.Execute())
-	defer must(db.CloseConnection())
+
 }
 
 func must(err error) {
