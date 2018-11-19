@@ -23,9 +23,14 @@ func main() {
 	mux.HandleFunc("/panic/", panicDemo)
 	mux.HandleFunc("/panic-after/", panicAfterDemo)
 	mux.HandleFunc("/", hello)
-	log.Fatal(http.ListenAndServe(":3000", devMw(mux)))
+	err := http.ListenAndServe(":3000", devMw(mux))
+	if err != nil {
+		return
+	}
 }
 
+//HandlerFunc that takes queryparam and render the source file and
+// heighlight the panic line
 func sourceCodeHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.FormValue("path")
 	lineNo := r.FormValue("line")
@@ -39,11 +44,7 @@ func sourceCodeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	b := bytes.NewBuffer(nil)
-	_, err = io.Copy(b, file)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	io.Copy(b, file)
 
 	var lines [][2]int
 	if lineInt > 0 {
@@ -53,9 +54,7 @@ func sourceCodeHandler(w http.ResponseWriter, r *http.Request) {
 	lexer := lexers.Get("go")
 	iterator, err := lexer.Tokenise(nil, b.String())
 	style := styles.Get("github")
-	if style == nil {
-		style = styles.Fallback
-	}
+
 	formatter := html.New(html.TabWidth(2), html.WithLineNumbers(), html.LineNumbersInTable(), html.HighlightLines(lines))
 	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprint(w, "<style>pre { font-size: 1.2em; }</style>")
