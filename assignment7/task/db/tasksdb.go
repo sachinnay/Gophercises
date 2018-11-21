@@ -7,7 +7,11 @@ import (
 	"github.com/boltdb/bolt"
 )
 
+//This file contains DB related oprations
+
 var taskBucket = []byte("tasks")
+
+//Db object for bolt db
 var Db *bolt.DB
 
 //Task  :: struct for task
@@ -31,7 +35,7 @@ func Init(dbPath string) error {
 
 }
 
-//CreateTask :: creats the task
+//CreateTask :: creates the task
 func CreateTask(task string) (int, error) {
 	var id int
 	err := Db.Update(func(tx *bolt.Tx) error {

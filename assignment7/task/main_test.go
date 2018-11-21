@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"path/filepath"
 	"testing"
 
@@ -18,4 +19,16 @@ func TestMainError(t *testing.T) {
 	dbPath := filepath.Join(home, "tasks.db")
 	db.Init(dbPath)
 	main()
+}
+
+func TestMainHomeDirError(t *testing.T) {
+	tempDir := HomedirVar
+	HomedirVar = func() (string, error) {
+		return "", errors.New("Customised error")
+	}
+	main()
+	defer func() {
+		HomedirVar = tempDir
+	}()
+
 }

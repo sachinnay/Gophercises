@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+//CLI do command used to mark the task as completed
 var doCmd = &cobra.Command{
 	Use:   "do",
 	Short: "To mark task as completed",
@@ -39,9 +40,8 @@ var doCmd = &cobra.Command{
 			if err != nil {
 				fmt.Printf("Failed to mark task: \"%d\" as completed. Error is :: %s  \n ", id, err)
 				return
-			} else {
-				fmt.Printf("Marked task :: \"%d\"  as completed. \n", id)
 			}
+			fmt.Printf("Marked task :: \"%d\"  as completed. \n", id)
 		}
 
 	},

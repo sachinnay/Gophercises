@@ -7,9 +7,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+//CLI list command used to list down the tasks
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "To listdown the tasks",
+	Short: "To list down the tasks",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		tasks, err := db.AllTasks()
@@ -24,6 +25,7 @@ var listCmd = &cobra.Command{
 		fmt.Println("You have following tasks: ")
 		for i, task := range tasks {
 			fmt.Printf("%d %s\n", i+1, task.Value)
+
 		}
 
 	},

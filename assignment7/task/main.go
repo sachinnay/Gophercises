@@ -9,10 +9,21 @@ import (
 	"github.com/sachinnay/Gophercises/assignment7/task/db"
 )
 
+//HomedirVar Using function as variable
+var HomedirVar = homedir.Dir
+
+//DbFileName const for DB file name
+const dbFileName = "tasks.db"
+
+//Starting point for application
 func main() {
-	home, _ := homedir.Dir()
-	dbPath := filepath.Join(home, "tasks.db")
-	err := db.Init(dbPath)
+	home, err := HomedirVar()
+	if err != nil {
+		fmt.Println("Error occured :: ", err)
+		return
+	}
+	dbPath := filepath.Join(home, dbFileName)
+	err = db.Init(dbPath)
 	if err != nil {
 		fmt.Println("Error occured :: ", err)
 		return

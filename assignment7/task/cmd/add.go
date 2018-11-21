@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+//CLI add command used to add the task into tasks todo list
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "To add the task in list",
