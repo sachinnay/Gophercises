@@ -17,6 +17,10 @@ import (
 	"github.com/alecthomas/chroma/styles"
 )
 
+//This File conatins the gophercises assignment 15 - recover
+
+//Applcation start up function
+//Having mapping of handlerFunction with respective path
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/debug/", sourceCodeHandler)
@@ -40,6 +44,7 @@ func sourceCodeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	file, err := os.Open(path)
 	if err != nil {
+		log.Println("Error occured :: ", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
