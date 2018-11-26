@@ -9,6 +9,7 @@ import (
 
 var listenAndServeFunc = http.ListenAndServe
 
+//Start point of application
 func main() {
 	log.Fatal(listenAndServeFunc(":3003", handler.GetMux()))
 }

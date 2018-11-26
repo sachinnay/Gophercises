@@ -15,6 +15,8 @@ import (
 	"github.com/sachinnay/Gophercises/assignment18/transform/primitive"
 )
 
+// This file contains handler function for transformation
+
 //GetMux method will return all the handlers
 func GetMux() http.Handler {
 	h, _ := homedir.Dir()

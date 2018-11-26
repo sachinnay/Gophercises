@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+// This file contains supporting function for transformation
+
 //Mode Primitive mode
 type Mode int
 
