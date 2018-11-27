@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -21,6 +22,7 @@ import (
 func GetMux() http.Handler {
 	h, _ := homedir.Dir()
 	imgPath := filepath.Join(h, "img")
+	log.Println("=======>" + imgPath)
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir(imgPath))
 	mux.Handle("/img/", http.StripPrefix("/img", fs))
@@ -32,6 +34,7 @@ func GetMux() http.Handler {
 
 //Home will handle first request
 func Home(w http.ResponseWriter, r *http.Request) {
+	log.Println("Home service called")
 	html := `<html><body> 
 	<form action="/upload" method="post" enctype="multipart/form-data">
 	<input type="file" name="image"/>
@@ -43,7 +46,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 
 //Upload will be called when user will upload the image for transformation
 func Upload(w http.ResponseWriter, r *http.Request) {
-
+	log.Println("Upload service called")
 	file, h, err := r.FormFile("image")
 	if err == nil {
 		defer file.Close()
@@ -61,6 +64,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 
 //Modify will modify the uploaded image
 func Modify(w http.ResponseWriter, r *http.Request) {
+	log.Println("Modify service called")
 	h, _ := homedir.Dir()
 	imgPath := filepath.Join(h, "img")
 	f, err := os.Open(imgPath + "/" + filepath.Base(r.URL.Path))
@@ -106,6 +110,7 @@ func Modify(w http.ResponseWriter, r *http.Request) {
 //Used to generate the images by taking variable No of shapes for transformation
 func renderNoShapesChoices(w http.ResponseWriter, r *http.Request, rs io.ReadSeeker, ext string,
 	mode primitive.Mode) {
+	log.Println("RenderNoShapesChoices called")
 	opts := []genOpts{
 		{N: 10, M: mode},
 		{N: 20, M: mode},
@@ -145,6 +150,7 @@ func renderNoShapesChoices(w http.ResponseWriter, r *http.Request, rs io.ReadSee
 
 //Used for applying multiple modes for transformation
 func renderModeChoices(w http.ResponseWriter, r *http.Request, rs io.ReadSeeker, ext string) {
+	log.Println("RenderModeChoices called")
 	opts := []genOpts{
 		{N: 10, M: primitive.ModeBeziers},
 		{N: 10, M: primitive.ModeCircle},

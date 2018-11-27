@@ -36,6 +36,7 @@ func main() {
 //HandlerFunc that takes queryparam and render the source file and
 // heighlight the panic line
 func sourceCodeHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("sourceCodeHandler called")
 	path := r.FormValue("path")
 	lineNo := r.FormValue("line")
 	lineInt, err := strconv.Atoi(lineNo)
@@ -124,17 +125,20 @@ func devMw(app http.Handler) http.HandlerFunc {
 
 //HandlerFunc that triggers panic
 func panicDemo(w http.ResponseWriter, r *http.Request) {
+	log.Println("panicDemo called")
 	funcThatPanics()
 }
 
 //HandlerFunc that triggers panic after normal flow
 func panicAfterDemo(w http.ResponseWriter, r *http.Request) {
+	log.Println("panicAfterDemo called")
 	fmt.Fprint(w, "<h1>Hello!</h1>")
 	funcThatPanics()
 }
 
 //Function that panics
 func funcThatPanics() {
+	log.Println("funcThatPanics called")
 	panic("Oh no!")
 	//println("ssss")
 }
