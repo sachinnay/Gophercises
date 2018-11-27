@@ -56,8 +56,10 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 			defer finalFile.Close()
 			io.Copy(finalFile, file)
 			http.Redirect(w, r, "/modify/"+filepath.Base(finalFile.Name()), http.StatusFound)
+			return
 		}
 	}
+	log.Println("Error Occured  :: ", err.Error())
 	http.Error(w, "error occured in upload", http.StatusInternalServerError)
 	return
 }
@@ -228,6 +230,7 @@ func tempfile(prefix, ext string) (*os.File, error) {
 	imgPath := filepath.Join(h, "img")
 	in, err := ioutil.TempFile(imgPath+"/", prefix)
 	if err != nil {
+
 		return nil, errors.New("handler: failed to create temporary file")
 	}
 	defer os.Remove(in.Name())
